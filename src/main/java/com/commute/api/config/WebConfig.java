@@ -3,18 +3,35 @@ package com.commute.api.config;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-import org.springframework.web.client.RestClient;
 
+/**
+ * Web MVC関連の設定クラス。
+ * Configuration class for Web MVC settings.
+ *
+ * <p>
+ * CORS（Cross-Origin Resource Sharing）の許可設定を定義する。
+ * Defines CORS (Cross-Origin Resource Sharing) allow rules.
+ * </p>
+ *
+ * @author Kim Gwangjin
+ * @since 2026/09/27
+ */
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
 
+    /**
+     * CORSマッピングを追加する。
+     * Adds CORS mappings.
+     *
+     * @param registry CORSレジストリ / CORS registry
+     */
     @Override
     public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/api/**") // CORS를 적용할 API 경로 패턴
-                .allowedOrigins("http://localhost:3000") // Next.js 주소
+        registry.addMapping("/api/**") // CORS適用対象のAPIパス / API path pattern for CORS
+                .allowedOrigins("http://localhost:3000") // Next.jsフロントエンドのオリジン / Next.js frontend origin
                 .allowedMethods("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS")
                 .allowedHeaders("*")
-                .allowCredentials(true) // 쿠키/인증 헤더 포함 허용 시 필요
-                .maxAge(3600); // Preflight 요청 결과 캐싱 시간 (초)
+                .allowCredentials(true) // Cookie・認証ヘッダを許可 / Allow cookies and auth headers
+                .maxAge(3600); // Preflight結果のキャッシュ時間（秒） / Preflight cache duration (seconds)
     }
 }

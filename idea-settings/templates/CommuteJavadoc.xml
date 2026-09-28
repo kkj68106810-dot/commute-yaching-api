@@ -1,0 +1,110 @@
+<templateSet group="Commute Javadoc">
+  <!-- クラス用: jdc + Tab -->
+  <template name="jdc"
+            value="/**&#10; * $JA$&#10; * $EN$&#10; *&#10; * @author Kim Gwangjin&#10; * @since $DATE$&#10; */"
+            description="日英クラスJavadoc / Bilingual class Javadoc"
+            toReformat="true"
+            toShortenFQNames="true">
+    <variable name="JA" expression="" defaultValue="&quot;クラスの説明を記入する。&quot;" alwaysStopAt="true" />
+    <variable name="EN" expression="" defaultValue="&quot;Write the class description.&quot;" alwaysStopAt="true" />
+    <variable name="DATE" expression="date(&quot;yyyy/MM/dd&quot;)" defaultValue="" alwaysStopAt="false" />
+    <context>
+      <option name="JAVA_DECLARATION" value="true" />
+      <option name="JAVA_CODE" value="true" />
+    </context>
+  </template>
+
+  <!-- メソッド用: jdm + Tab -->
+  <template name="jdm"
+            value="/**&#10; * $JA$&#10; * $EN$&#10; *&#10; * @param $PARAM$ $PJA$ / $PEN$&#10; * @return $RJA$ / $REN$&#10; */"
+            description="日英メソッドJavadoc / Bilingual method Javadoc"
+            toReformat="true"
+            toShortenFQNames="true">
+    <variable name="JA" expression="" defaultValue="&quot;処理内容を記入する。&quot;" alwaysStopAt="true" />
+    <variable name="EN" expression="" defaultValue="&quot;Write what this method does.&quot;" alwaysStopAt="true" />
+    <variable name="PARAM" expression="" defaultValue="&quot;name&quot;" alwaysStopAt="true" />
+    <variable name="PJA" expression="" defaultValue="&quot;説明&quot;" alwaysStopAt="true" />
+    <variable name="PEN" expression="" defaultValue="&quot;Description&quot;" alwaysStopAt="true" />
+    <variable name="RJA" expression="" defaultValue="&quot;戻り値の説明&quot;" alwaysStopAt="true" />
+    <variable name="REN" expression="" defaultValue="&quot;Return value description&quot;" alwaysStopAt="true" />
+    <context>
+      <option name="JAVA_DECLARATION" value="true" />
+      <option name="JAVA_CODE" value="true" />
+    </context>
+  </template>
+
+  <!-- voidメソッド用（@returnなし）: jdv + Tab -->
+  <template name="jdv"
+            value="/**&#10; * $JA$&#10; * $EN$&#10; */"
+            description="日英voidメソッドJavadoc / Bilingual void method Javadoc"
+            toReformat="true"
+            toShortenFQNames="true">
+    <variable name="JA" expression="" defaultValue="&quot;処理内容を記入する。&quot;" alwaysStopAt="true" />
+    <variable name="EN" expression="" defaultValue="&quot;Write what this method does.&quot;" alwaysStopAt="true" />
+    <context>
+      <option name="JAVA_DECLARATION" value="true" />
+      <option name="JAVA_CODE" value="true" />
+    </context>
+  </template>
+
+  <!-- フィールド用: jdf + Tab -->
+  <template name="jdf"
+            value="/** $JA$ / $EN$ */"
+            description="日英フィールドJavadoc / Bilingual field Javadoc"
+            toReformat="false"
+            toShortenFQNames="true">
+    <variable name="JA" expression="" defaultValue="&quot;フィールド説明&quot;" alwaysStopAt="true" />
+    <variable name="EN" expression="" defaultValue="&quot;Field description&quot;" alwaysStopAt="true" />
+    <context>
+      <option name="JAVA_DECLARATION" value="true" />
+      <option name="JAVA_CODE" value="true" />
+    </context>
+  </template>
+
+  <!-- @param 行: jdp + Tab -->
+  <template name="jdp"
+            value="* @param $NAME$ $JA$ / $EN$"
+            description="日英@param行 / Bilingual @param line"
+            toReformat="false"
+            toShortenFQNames="true">
+    <variable name="NAME" expression="" defaultValue="&quot;name&quot;" alwaysStopAt="true" />
+    <variable name="JA" expression="" defaultValue="&quot;説明&quot;" alwaysStopAt="true" />
+    <variable name="EN" expression="" defaultValue="&quot;Description&quot;" alwaysStopAt="true" />
+    <context>
+      <option name="JAVA_COMMENT" value="true" />
+      <option name="JAVA_CODE" value="true" />
+    </context>
+  </template>
+
+  <!-- @return 行: jdr + Tab -->
+  <template name="jdr"
+            value="* @return $JA$ / $EN$"
+            description="日英@return行 / Bilingual @return line"
+            toReformat="false"
+            toShortenFQNames="true">
+    <variable name="JA" expression="" defaultValue="&quot;戻り値の説明&quot;" alwaysStopAt="true" />
+    <variable name="EN" expression="" defaultValue="&quot;Return value description&quot;" alwaysStopAt="true" />
+    <context>
+      <option name="JAVA_COMMENT" value="true" />
+      <option name="JAVA_CODE" value="true" />
+    </context>
+  </template>
+
+  <!-- DTO/Record用: jdd + Tab -->
+  <template name="jdd"
+            value="/**&#10; * $JA$&#10; * $EN$&#10; *&#10; * @param $PARAM$ $PJA$ / $PEN$&#10; * @author Kim Gwangjin&#10; * @since $DATE$&#10; */"
+            description="日英DTO/Record Javadoc / Bilingual DTO-Record Javadoc"
+            toReformat="true"
+            toShortenFQNames="true">
+    <variable name="JA" expression="" defaultValue="&quot;DTOの説明を記入する。&quot;" alwaysStopAt="true" />
+    <variable name="EN" expression="" defaultValue="&quot;Write the DTO description.&quot;" alwaysStopAt="true" />
+    <variable name="PARAM" expression="" defaultValue="&quot;response&quot;" alwaysStopAt="true" />
+    <variable name="PJA" expression="" defaultValue="&quot;レスポンス本体&quot;" alwaysStopAt="true" />
+    <variable name="PEN" expression="" defaultValue="&quot;Response body&quot;" alwaysStopAt="true" />
+    <variable name="DATE" expression="date(&quot;yyyy/MM/dd&quot;)" defaultValue="" alwaysStopAt="false" />
+    <context>
+      <option name="JAVA_DECLARATION" value="true" />
+      <option name="JAVA_CODE" value="true" />
+    </context>
+  </template>
+</templateSet>

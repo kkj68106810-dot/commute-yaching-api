@@ -1,0 +1,27 @@
+프로젝트 전용으로 분리해, 이 프로젝트를 열 때마다 자동 적용되게 구성하겠습니다. IntelliJ가 Project 스키마로 읽는 방식부터 확인합니다.
+.idea가 gitignore라 템플릿이 프로젝트에 안 남습니다. 커밋 가능한 idea-settings로 분리하고, Gradle 작업 시 자동 동기화되게 만들겠습니다.
+idea-settings를 프로젝트 단일 소스로 두고, Gradle 빌드 시 .idea·IntelliJ에 자동 동기화되게 구성합니다.
+
+구조
+idea-settings/          ← Git에 올리는 원본 (단일 소스)
+  fileTemplates/        ← 새 클래스 생성 시 日英 주석
+  templates/
+    CommuteJavadoc.xml  ← jdc / jdm / jdf 등 Live Template
+
+
+자동 적용 방식
+build.gradle에 syncIdeaSettings 태스크를 넣었고, compileJava에 묶었습니다.
+
+IntelliJ에서 Build / Run / Gradle Refresh 하면 → 자동 동기화
+
+수동 실행: Gradle 창에서 ide → syncIdeaSettings
+동기화 결과:
+1. idea-settings/fileTemplates → .idea/fileTemplates (이 프로젝트만)
+2. idea-settings/templates → IntelliJ Live Templates (jdc 등)
+사용 방법
+1. IntelliJ 재시작 (Live Template 반영)
+2. Settings → File and Code Templates → Scheme: Project 확인
+3. 이후엔 이 프로젝트에서 작업·빌드할 때마다 유지됩니다
+참고
+Live Template은 JetBrains 구조상 IDE 전역에 들어가지만, 원본·갱신은 이 프로젝트의 idea-settings만 보면 됩니다. File Template은 프로젝트 전용입니다.
+템플릿을 수정할 때는 idea-settings/만 고치면 됩니다.

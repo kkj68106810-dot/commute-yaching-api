@@ -36,3 +36,65 @@ dependencies {
 tasks.named('test') {
     useJUnitPlatform()
 }
+
+/**
+ * プロジェクト固有のIntelliJ設定（日英Javadocテンプレート）を同期する。
+ * Syncs project-specific IntelliJ settings (bilingual Javadoc templates).
+ *
+ * <p>
+ * - idea-settings/fileTemplates → .idea/fileTemplates（このプロジェクトのみ）
+ * - idea-settings/templates → IDE Live Templates（jdc/jdm など）
+ * </p>
+ */
+tasks.register('syncIdeaSettings') {
+    group = 'ide'
+    description = 'Sync bilingual Javadoc File/Live Templates into IntelliJ for this project'
+
+    def sourceRoot = layout.projectDirectory.dir('idea-settings')
+    def projectFileTemplates = layout.projectDirectory.dir('.idea/fileTemplates')
+    def liveTemplateSource = sourceRoot.file('templates/CommuteJavadoc.xml')
+
+    inputs.dir(sourceRoot.dir('fileTemplates'))
+    inputs.file(liveTemplateSource)
+    outputs.dir(projectFileTemplates)
+
+    doLast {
+        // 1) File Templates → プロジェクト固有（.idea）
+        copy {
+            from sourceRoot.dir('fileTemplates')
+            into projectFileTemplates
+        }
+        logger.lifecycle("Synced File Templates → .idea/fileTemplates")
+
+        // 2) Live Templates → IntelliJ IDEA 設定ディレクトリ
+        def roaming = System.getenv('APPDATA')
+        if (roaming == null) {
+            logger.warn('APPDATA not found; skip Live Template sync')
+            return
+        }
+        def jetbrainsDir = file("${roaming}/JetBrains")
+        if (!jetbrainsDir.exists()) {
+            logger.warn("JetBrains config not found: ${jetbrainsDir}")
+            return
+        }
+        def ideaHomes = jetbrainsDir.listFiles()?.findAll { it.name.startsWith('IntelliJIdea') } ?: []
+        if (ideaHomes.isEmpty()) {
+            logger.warn('No IntelliJIdea* config directory found')
+            return
+        }
+        ideaHomes.each { ideaHome ->
+            def templatesDir = new File(ideaHome, 'templates')
+            templatesDir.mkdirs()
+            copy {
+                from liveTemplateSource.asFile
+                into templatesDir
+            }
+            logger.lifecycle("Synced Live Templates → ${templatesDir}/CommuteJavadoc.xml")
+        }
+    }
+}
+
+// このプロジェクトでビルドするたびに自動適用
+tasks.named('compileJava') {
+    dependsOn 'syncIdeaSettings'
+}

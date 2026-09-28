@@ -7,10 +7,22 @@
 //import org.springframework.context.annotation.Bean;
 //import org.springframework.context.annotation.Configuration;
 //
-//
+///**
+// * Swagger / OpenAPIドキュメントの設定クラス。
+// * Configuration class for Swagger / OpenAPI documentation.
+// *
+// * @author Kim Gwangjin
+// * @since 2026/09/27
+// */
 //@Configuration
 //public class SwaggerConfig {
 //
+//    /**
+//     * OpenAPI定義Beanを生成する。
+//     * Creates the OpenAPI definition bean.
+//     *
+//     * @return OpenAPI設定オブジェクト / OpenAPI configuration object
+//     */
 //    @Bean
 //    public OpenAPI openAPI() {
 //        Info info = new Info()
