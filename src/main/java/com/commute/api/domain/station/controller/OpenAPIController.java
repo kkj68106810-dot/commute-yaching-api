@@ -8,6 +8,7 @@ import com.commute.api.domain.station.repository.LineRepository;
 import com.commute.api.domain.station.repository.PrefectureRepository;
 import com.commute.api.domain.station.repository.StationRepository;
 import com.commute.api.domain.station.service.HeartRailsApiClient;
+import lombok.RequiredArgsConstructor;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,6 +26,7 @@ import java.util.List;
  * @since 2026/09/27
  */
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/api/station")
 @CrossOrigin(origins = "http://localhost:3000")
 public class OpenAPIController {
@@ -40,24 +42,6 @@ public class OpenAPIController {
 
     /** 駅リポジトリ / Station repository */
     private final StationRepository stationRepository;
-
-
-
-    /**
-     * コンストラクタ。依存コンポーネントを注入する。
-     * Constructor. Injects dependent components.
-     *
-     * @param heartRailsApiClient   HeartRails APIクライアント / HeartRails API client
-     * @param prefectureRepository  都道府県リポジトリ / Prefecture repository
-     * @param lineRepository        路線リポジトリ / Line repository
-     * @param stationRepository     駅リポジトリ / Station repository
-     */
-    public OpenAPIController(HeartRailsApiClient heartRailsApiClient, PrefectureRepository prefectureRepository, LineRepository lineRepository, StationRepository stationRepository) {
-        this.heartRailsApiClient = heartRailsApiClient;
-        this.prefectureRepository = prefectureRepository;
-        this.lineRepository = lineRepository;
-        this.stationRepository = stationRepository;
-    }
 
     /**
      * 全国の都道府県一覧をHeartRailsから取得し、DBへ一括登録する。
