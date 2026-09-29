@@ -8,6 +8,7 @@ import com.commute.api.domain.station.repository.LineRepository;
 import com.commute.api.domain.station.repository.PrefectureRepository;
 import com.commute.api.domain.station.repository.StationRepository;
 import com.commute.api.domain.station.service.HeartRailsApiClient;
+import com.commute.api.domain.station.service.StationMigrationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -53,6 +54,8 @@ public class OpenAPIController {
      */
     private final StationRepository stationRepository;
 
+    private final StationMigrationService stationMigrationService;
+
     /**
      * 全国の都道府県一覧をHeartRailsから取得し、DBへ一括登録する。
      * Fetches the nationwide prefecture list from HeartRails and bulk-saves it to the DB.
@@ -82,11 +85,13 @@ public class OpenAPIController {
 
         List<Line> lines = prefList.stream()
                 .flatMap(pref -> heartRailsApiClient.getLines(pref.getPrefName()).stream())
-                .map(line -> {
+                .distinct() // String 단계で重複排除（Lineはequals未実装のため entity.distinctは効かない）
+                .map(lineName -> {
                     Line newLine = new Line();
-                    newLine.setLineName(line);
+                    newLine.setLineName(lineName);
                     return newLine;
-                }).toList();
+                })
+                .toList();
 
         lineRepository.saveAll(lines);
     }
@@ -97,26 +102,27 @@ public class OpenAPIController {
      *
      * <p>現在はコメントアウト中。 / Currently commented out.</p>
      */
-    @GetMapping("/station/all")
-    public void getStations() {
-        List<Line> lines = lineRepository.findAll();
-        List<Station> stations = new ArrayList<>();
-
-        for (Line line : lines) {
-            List<HeartRailsStationDto.StationInfo> stationInfos = heartRailsApiClient.getStations(line.getLineName());
-
-            for (HeartRailsStationDto.StationInfo stationInfo : stationInfos) {
-                Station station = new Station();
-
-                station.setStationName(stationInfo.name());
-                Prefecture pref = prefectureRepository.getByPrefName(stationInfo.prefecture());
-                station.setPrefecture(pref);
-                station.setLatitude(stationInfo.y());
-                station.setLongitude(stationInfo.x());
-                stations.add(station);
-            }
-        }
-        stationRepository.saveAll(stations);
+    @GetMapping("/line/station/all")
+    public void getLineToStations() {
+//        List<Line> lines = lineRepository.findAll();
+//        List<Station> stations = new ArrayList<>();
+//
+//        for (Line line : lines) {
+//            List<HeartRailsStationDto.StationInfo> stationInfos = heartRailsApiClient.getStations(line.getLineName());
+//
+//            for (HeartRailsStationDto.StationInfo stationInfo : stationInfos) {
+//                Station station = new Station();
+//
+//                station.setStationName(stationInfo.name());
+//                Prefecture pref = prefectureRepository.getByPrefName(stationInfo.prefecture());
+//                station.setPrefecture(pref);
+//                station.setLatitude(stationInfo.y());
+//                station.setLongitude(stationInfo.x());
+//                stations.add(station);
+//            }
+//        }
+//        stationRepository.saveAll(stations);
+        stationMigrationService.migrateLineToStation();
     }
 
 }

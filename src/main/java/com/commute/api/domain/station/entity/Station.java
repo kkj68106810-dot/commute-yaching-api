@@ -12,6 +12,8 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.math.BigDecimal;
 
@@ -47,7 +49,7 @@ public class Station {
     /** 駅名 / Station name */
     @Size(max = 100)
     @NotNull
-    @Column(name = "station_name", nullable = false, length = 100)
+    @Column(name = "sta_name", nullable = false, length = 100)
     private String stationName;
 
     /** 緯度 / Latitude */

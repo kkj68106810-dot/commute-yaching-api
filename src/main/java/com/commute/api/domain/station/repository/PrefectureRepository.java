@@ -20,4 +20,13 @@ public interface PrefectureRepository extends JpaRepository<Prefecture, Long> {
      * @return 該当する都道府県エンティティ / Matching prefecture entity
      */
     Prefecture getByPrefName(String prefecture);
+
+    /**
+     * 処理内容を記入する。
+     * Write what this method does.
+     *
+     * @param name 説明 / Description
+     * @return 戻り値の説明 / Return value description
+     */
+    Prefecture findByPrefName(String prefecture);
 }
