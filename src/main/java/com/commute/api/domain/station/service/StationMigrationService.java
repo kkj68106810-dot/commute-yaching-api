@@ -76,7 +76,7 @@ public class StationMigrationService {
             Station station = new Station();
             station.setStationName(stationName);
             station.setLatitude(firstLine.y());
-            station.setLatitude(firstLine.x());
+            station.setLongitude(firstLine.x());
             Prefecture prefecture = prefectureRepository.findByPrefName(firstLine.prefecture());
             station.setPrefecture(prefecture);
 
@@ -88,6 +88,7 @@ public class StationMigrationService {
                         LineStation lineStation = new LineStation();
                         lineStation.setLine(matchedLine);
                         lineStation.setStation(savedStation);
+                        lineStation.setSequence(linesForStation.indexOf(info));
                         return lineStation;
                     }).toList();
             lineStationRepository.saveAll(mapping);

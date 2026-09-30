@@ -48,17 +48,17 @@ public class Station {
 
     /** 駅名 / Station name */
     @Size(max = 100)
-    @NotNull
+//    @NotNull
     @Column(name = "sta_name", nullable = false, length = 100)
     private String stationName;
 
     /** 緯度 / Latitude */
-    @NotNull
+//    @NotNull
     @Column(name = "latitude", nullable = false, precision = 10, scale = 8)
     private BigDecimal latitude;
 
     /** 経度 / Longitude */
-    @NotNull
+//    @NotNull
     @Column(name = "longitude", nullable = false, precision = 11, scale = 8)
     private BigDecimal longitude;
 
