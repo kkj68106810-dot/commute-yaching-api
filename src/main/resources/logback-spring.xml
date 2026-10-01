@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <!-- 로그 파일 저장 경로 변수 선언 -->
+    <property name="LOG_PATH" value="./logs"/>
+    <property name="LOG_FILE_NAME" value="spring"/>
+
+    <!-- 1. 콘솔 Appender (개발용) -->
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+    </appender>
+
+    <!-- 2. 파일 Appender (운영 필수: 로테이션 및 용량 관리) -->
+    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_PATH}/${LOG_FILE_NAME}.log</file>
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+
+        <!-- 일자별 + 용량별 롤링 정책 (필수) -->
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <!-- 백업 파일명 형식 (날짜별 압축) -->
+            <fileNamePattern>${LOG_PATH}/archived/${LOG_FILE_NAME}.%d{yyyy-MM-dd}.%i.log.gz</fileNamePattern>
+            <!-- 단일 파일 최대 용량 -->
+            <maxFileSize>10MB</maxFileSize>
+            <!-- 보존 기한 (30일) -->
+            <maxHistory>30</maxHistory>
+            <!-- 전체 아카이브 용량 제한 -->
+            <totalSizeCap>3GB</totalSizeCap>
+        </rollingPolicy>
+    </appender>
+
+    <!-- 루트 로거 레벨 설정 -->
+    <root level="INFO">
+        <appender-ref ref="CONSOLE"/>
+        <appender-ref ref="FILE"/>
+    </root>
+</configuration>
