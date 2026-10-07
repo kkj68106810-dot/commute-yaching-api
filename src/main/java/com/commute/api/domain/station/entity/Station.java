@@ -29,11 +29,11 @@ public class Station {
     private String staName;
 
     @NotNull
-    @Column(name = "latitude", nullable = false, precision = 10, scale = 8)
+    @Column(name = "latitude", nullable = false)
     private double latitude;
 
     @NotNull
-    @Column(name = "longitude", nullable = false, precision = 11, scale = 8)
+    @Column(name = "longitude", nullable = false)
     private double longitude;
 
 
