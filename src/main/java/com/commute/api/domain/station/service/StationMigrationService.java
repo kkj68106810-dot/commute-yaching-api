@@ -83,7 +83,7 @@ public class StationMigrationService {
                 HeartRailsStationDto.StationInfo firstLine = linesForStation.get(0);
 
                 Station station = new Station();
-                station.setStationName(stationName);
+                station.setStaName(stationName);
                 station.setLatitude(firstLine.y());
                 station.setLongitude(firstLine.x());
 
