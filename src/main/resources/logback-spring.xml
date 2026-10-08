@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
     <!-- 로그 파일 저장 경로 변수 선언 -->
-    <property name="LOG_PATH" value="./logs"/>
-    <property name="LOG_FILE_NAME" value="spring"/>
+    <property name="LOG_PATH" value="C:/logs"/>
+    <property name="LOG_FILE_NAME" value="commute_yaching-api"/>
 
     <!-- 1. 콘솔 Appender (개발용) -->
     <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
