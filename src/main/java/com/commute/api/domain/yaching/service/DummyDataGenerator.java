@@ -1,7 +1,8 @@
 package com.commute.api.domain.yaching.service;
 
+import com.commute.api.domain.station.entity.LineStation;
 import com.commute.api.domain.station.entity.Station;
-import com.commute.api.domain.station.repository.StationRepository;
+import com.commute.api.domain.station.repository.LineStationRepository;
 import com.commute.api.domain.yaching.entity.YachingStat;
 import com.commute.api.domain.yaching.repository.YachingStationRepository;
 import lombok.RequiredArgsConstructor;
@@ -10,6 +11,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -29,7 +31,7 @@ public class DummyDataGenerator implements CommandLineRunner {
     /** フィールド説明 / Field description */
     private final YachingStationRepository yachingStatRepository;
     /** フィールド説明 / Field description */
-    private final StationRepository stationRepository;
+    private final LineStationRepository lineStationRepository;
 
     // sinjuku station
     /** フィールド説明 / Field description */
@@ -42,7 +44,7 @@ public class DummyDataGenerator implements CommandLineRunner {
      *
      * @param name 説明 / Description
      * @return 戻り値の説明 / Return value description
-     */    
+     */
     @Override
     @Transactional
     public void run(String... args) throws Exception {
@@ -52,13 +54,19 @@ public class DummyDataGenerator implements CommandLineRunner {
             return;
         }
 
-        log.info("5만 건의 야칭 더미 데이터 생성을 시작합니다...");
-        List<Station> stations = stationRepository.findAll();
+        log.info("야칭 더미 데이터 생성을 시작합니다...");
+        List<LineStation> lineStations = lineStationRepository.findAll();
+        if (lineStations.isEmpty()) {
+            log.warn("line_stations 데이터가 없어 야칭 더미 생성을 건너뜁니다.");
+            return;
+        }
+
         List<YachingStat> dummyStats = new ArrayList<>();
         String[] roomLayouts = {"1R", "1K", "1DK", "1LDK"};
         Random random = new Random();
 
-        for (Station station : stations) {
+        for (LineStation lineStation : lineStations) {
+            Station station = lineStation.getStation();
             // 1. 도심(신주쿠)과의 거리 계산 (단순 유클리드 거리 또는 하버사인 공식 적용)
             double distance = calculateDistance(CENTER_LAT, CENTER_LNG,
                     station.getLatitude(), station.getLongitude());
@@ -77,7 +85,7 @@ public class DummyDataGenerator implements CommandLineRunner {
                 int averageYaching = finalPrice + randomNoise;
 
                 YachingStat stat = YachingStat.builder()
-                        .station(station)
+                        .lineStation(lineStation)
                         .roomLayout(layout)
                         .averageYaching(averageYaching)
                         .minYaching(averageYaching - 15000)
@@ -119,7 +127,7 @@ public class DummyDataGenerator implements CommandLineRunner {
      * @return 戻り値の説明 / Return value description
      */
     private double calculateDistance(double lat1, double lon1, double lat2, double lon2) {
-        // 
+        //
         return Math.sqrt(Math.pow(lat1 - lat2, 2) + Math.pow(lon1 - lon2, 2))*100;
     };
 }

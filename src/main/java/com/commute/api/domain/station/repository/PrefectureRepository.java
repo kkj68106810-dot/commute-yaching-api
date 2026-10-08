@@ -13,15 +13,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface PrefectureRepository extends JpaRepository<Prefecture, Long> {
 
     /**
-     * 都道府県名で都道府県エンティティを取得する。
-     * Retrieves a prefecture entity by prefecture name.
-     *
-     * @param prefecture 都道府県名 / Prefecture name
-     * @return 該当する都道府県エンティティ / Matching prefecture entity
-     */
-    Prefecture getByPrefName(String prefecture);
-
-    /**
      * 処理内容を記入する。
      * Write what this method does.
      *

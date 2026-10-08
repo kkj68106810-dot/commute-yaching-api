@@ -1,6 +1,6 @@
 package com.commute.api.domain.yaching.entity;
 
-import com.commute.api.domain.station.entity.Station;
+import com.commute.api.domain.station.entity.LineStation;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -13,8 +13,13 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import lombok.*;
-import org.hibernate.annotations.ColumnDefault;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.Instant;
 
@@ -62,8 +67,8 @@ public class YachingStat {
      */
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "station_id", nullable = false)
-    private Station station;
+    @JoinColumn(name = "line_station_id", nullable = false, referencedColumnName = "line_station_id")
+    private LineStation lineStation;
 
     /**
      * 間取り（例: 1K, 1LDK） / Room layout (e.g. 1K, 1LDK)
@@ -120,18 +125,17 @@ public class YachingStat {
      *
      * @return 更新日時 / Updated datetime
      */
-    @NotNull
-    @ColumnDefault("current_timestamp()")
+//    @NotNull
+    @UpdateTimestamp
     @Column(name = "updated_at", nullable = false)
     private Instant updatedAt;
 
     @Builder
-    public YachingStat(Long id, Integer minYaching, Integer maxYaching, Instant updatedAt, Station station, String roomLayout, Integer averageYaching) {
+    public YachingStat(Long id, Integer minYaching, Integer maxYaching, LineStation lineStation, String roomLayout, Integer averageYaching) {
         this.id = id;
         this.minYaching = minYaching;
         this.maxYaching = maxYaching;
-        this.updatedAt = updatedAt;
-        this.station = station;
+        this.lineStation = lineStation;
         this.roomLayout = roomLayout;
         this.averageYaching = averageYaching;
     }

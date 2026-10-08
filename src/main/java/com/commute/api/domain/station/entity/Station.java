@@ -6,8 +6,6 @@ import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.math.BigDecimal;
-
 @Getter
 @Setter
 @Entity
@@ -25,7 +23,7 @@ public class Station {
 
     @Size(max = 100)
     @NotNull
-    @Column(name = "sta_name", nullable = false, length = 100)
+    @Column(name = "station_name", nullable = false, length = 100)
     private String staName;
 
     @NotNull
